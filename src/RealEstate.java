@@ -44,12 +44,12 @@ public class RealEstate {
         System.out.println("Please enter your phone number: ");
         phoneNumber = scanner.nextLine();
         System.out.println("Choose your profile type: " + "\n" + "Insert 1 for relator." + "\n" + "Insert 2 for regular user.");
-        float type;
+        int userType;
         do{
-            type = scanner.nextFloat();
-            if (type == 1){
+            userType = scanner.nextInt();
+            if (userType == 1){
                 relator = true;
-            } else if (type == 2) {
+            } else if (userType == 2) {
                 relator = false;
             }else{
                 accepted = false;
@@ -126,6 +126,15 @@ public class RealEstate {
         }
         return current;
     }
+    private boolean validateIfForRent (String isForRent){
+        boolean valid = false;
+        if (isForRent != null){
+            if (isForRent.equals("y") || isForRent.equals("n")){
+                valid = true;
+            }
+        }
+        return valid;
+    }
     public boolean postNewProperty (User user){
         Scanner scanner = new Scanner(System.in);
         boolean published = false;
@@ -156,7 +165,7 @@ public class RealEstate {
                                     +"3- A Cottage");
                         }
                     } while (!inputValid);
-                    int floor;
+                    int floor = 0;
                     if (propertyType.equals(property.REGULAR_APARTMENT) || propertyType.equals(property.PENTHOUSE_APARTMENT)){
                         System.out.println("Please enter the floor of the property: ");
                         do {
@@ -185,17 +194,32 @@ public class RealEstate {
                             System.out.println("Invalid house number, please try again: ");
                         }
                     }while (!inputValid);
-                    int rentOrSale;
-                    System.out.println("Is your property for rent or for sale?\n" +
-                            "For rent -> insert 1\n" +
-                            "For sale -> insert 2");
+                    String isForRent;
+                    System.out.println("Is your property for rent? (y/n)\n" +
+                            "For rent -> insert y\n" +
+                            "For sale -> insert n");
                     do {
-                        rentOrSale = scanner.nextInt();
-                        inputValid = property.validateRentOrSale(rentOrSale);
+                        isForRent = scanner.nextLine();
+                        inputValid = this.validateIfForRent(isForRent);
                         if (!inputValid){
-                            System.out.println("Invalid selection, please insert 1/2.");
+                            System.out.println("Invalid selection, please insert y/n.");
                         }
                     }while (!inputValid);
+                    boolean forRent = false;
+                    switch (isForRent){
+                        case "y" -> forRent =true;
+                        case "n" -> forRent =false;
+                    }
+                    double price;
+                    System.out.println("Enter your property's price please: ");
+                    do {
+                        price = scanner.nextDouble();
+                        inputValid = property.validatePrice(price);
+                        if (!inputValid){
+                            System.out.println("Invalid, please enter again: ");
+                        }
+                    }while (!inputValid);
+                    property = new Property(currentCity, user, streetName, roomsAmount, price, propertyType, forRent, houseNumber, floor);
                 } else{
                     System.out.println(streetName + " is not a street in this city.");
                 }

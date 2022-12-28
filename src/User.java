@@ -55,7 +55,7 @@ public class User {
             this.password = password;
         }
     }
-    public void setPhoneNumber(String phoneNumber){
+    protected void setPhoneNumber(String phoneNumber){
         if (this.phoneNumberValidating(phoneNumber)){
             this.phoneNumber = phoneNumber;
         }

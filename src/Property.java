@@ -35,9 +35,9 @@ public class Property {
         this.houseNumber = houseNumber;
         this.floor = floor;
     }
-    public boolean validateRentOrSale (Integer rentOrSale){
+    public boolean validatePrice (double price){
         boolean valid = false;
-        if (rentOrSale == 1 || rentOrSale == 2){
+        if (price >=0){
             valid = true;
         }
         return valid;
@@ -54,6 +54,7 @@ public class Property {
         if (houseNumber >= MIN_HOUSE_NUMBER && houseNumber <= MAX_HOUSE_NUMBER){
             valid = true;
         }
+        return valid;
     }
     public boolean validateRoomsAmount(float roomsAmount){
         boolean valid = false;
