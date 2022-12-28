@@ -1,21 +1,35 @@
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.Scanner;
 
 public class Main {
-    public static boolean phoneNumberValidating (String phoneNumber){
-        boolean valid = false;
-        String digits = "";
-        if (Pattern.matches("^(\\d{10})$", phoneNumber)){
-            valid = Pattern.matches("^05.*", phoneNumber);
-        }
-        return valid;
-    }
     public static void main(String[] args) {
-            String str = "0509530653";
-            System.out.println(phoneNumberValidating(str));
+        Scanner scanner = new Scanner(System.in);
+        RealEstate realEstate = new RealEstate();
+        int selection;
+        boolean repeatMainMenu = false;
+        boolean advance = false;
+        do {
+            System.out.println("Please enter your selection:\n" +
+                    "1- Create new account\n" +
+                    "2-Login to existing account\n" +
+                    "3- End session");
+            selection = scanner.nextInt();
+            if (selection == 1){
+                realEstate.createUser();
+            } else if (selection == 2) {
+                User currentUser = realEstate.userLogin();
+                if (currentUser != null){
+                    advance = true;
+                } else {
+                    repeatMainMenu = true;
+                    System.out.println("Incorrect username or password!");
+                }
+            } else if (selection == 3) {
+                System.out.println("Have a nice day! :)");
+            } else {
+                repeatMainMenu = true;
+                System.out.println("Invalid option, please choose between 1-3.");
+            }
+        }while (repeatMainMenu);
+
     }
 }
-/*(?=\S+$)(?=.*[%$_])
-Pattern p = Pattern.compile("(.*\\d?%?.*)+(.*%?|$?.*)");
-    Matcher m = p.matcher(password);
-            System.out.println(m.matches());*/

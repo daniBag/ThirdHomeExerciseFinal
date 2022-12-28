@@ -1,7 +1,6 @@
 public class City {
     private String name;
-    private String county;
-
+    private String county; // לשנות למספרים+ קבועים
     private String[] streets;
 
     public City(String name, String county, String[] streets) {
@@ -10,15 +9,15 @@ public class City {
         this.streets = streets;
     }
 
-    public void setName(String name) {
+    private void setName(String name) {
         this.name = name;
     }
 
-    public void setCounty(String county) {
+    private void setCounty(String county) {
         this.county = county;
     }
 
-    public void setStreets(String[] streets) {
+    private void setStreets(String[] streets) {
         this.streets = streets;
     }
 
@@ -32,5 +31,20 @@ public class City {
 
     public String[] getStreets() {
         return streets;
+    }
+    public void printStreetList (){
+        for (int i = 0; i < this.streets.length; i++){
+            System.out.println(this.streets[i]);
+        }
+    }
+    public boolean isValidStreet(String streetName){
+        boolean valid = false;
+        for (int i = 0; i < this.streets.length; i++){
+            if (this.streets[i].equals(streetName)){
+                valid = true;
+                break;
+            }
+        }
+        return valid;
     }
 }
