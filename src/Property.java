@@ -1,5 +1,3 @@
-import java.security.PublicKey;
-
 public class Property {
     private City city;
     private User user;
@@ -16,8 +14,8 @@ public class Property {
     public final int BASEMENT_FLOOR = -1;
     public final float MIN_ROOMS_NUMBER = 1;
     public final int MIN_HOUSE_NUMBER = 1;
-    public final Integer FOR_RENT = 1;
-    public final Integer FOR_SALE = 2;
+    public final int FOR_RENT = 1;
+    public final int FOR_SALE = 2;
 // input validations
     public Property(){}
     public Property(City city, User user, String street,
@@ -27,16 +25,16 @@ public class Property {
         this.city = city;
         this.user = user;
         this.street = street;
+        if (this.validatePropertyType(propertyType)){
+            this.propertyType = propertyType;
+        }
         if (this.validateRoomsAmount(roomsAmount)){
             this.roomsAmount = roomsAmount;
         }
         if (this.validatePrice(price)){
             this.price = price;
         }
-        if (this.validatePropertyType(propertyType)){
-            this.propertyType = propertyType;
-        }
-        if (this.validateIfForRent(forRent)){
+        if (this.validateRentOrSale(forRent)){
             this.rentOrSale = forRent;
            }
         if (this.validateHouseNumber(houseNumber)){
@@ -83,7 +81,7 @@ public class Property {
         }
         return valid;
     }
-    private boolean validateRentOrSale (Integer rentOrSale){
+    public boolean validateRentOrSale (Integer rentOrSale){
         boolean valid = false;
         if (rentOrSale != null){
             if (rentOrSale.equals(FOR_RENT) || rentOrSale.equals(FOR_SALE)){
@@ -138,8 +136,10 @@ public class Property {
         return propertyType;
     }
 
-    private void setPropertyType(Integer propertyType) {
-        this.propertyType = propertyType;
+    public void setPropertyType(Integer propertyType) {
+        if (this.validatePropertyType(propertyType)){
+            this.propertyType = propertyType;
+        }
     }
 
     public Integer getRentOrSale() {
@@ -176,7 +176,11 @@ public class Property {
             case PENTHOUSE_APARTMENT -> output += "Penthouse apartment - ";
             case COTTAGE -> output += "Cottage - ";
         }
-        output += (this.rentOrSale ? "for rent: " : "for sale: ") + this.roomsAmount + " rooms";
+        switch (this.rentOrSale){
+            case FOR_RENT -> output += "for rent: ";
+            case FOR_SALE -> output += "for sale: ";
+        }
+        output += this.roomsAmount + " rooms";
         if (this.propertyType!=COTTAGE){
             output += ", floor " + this.floor;
         }
