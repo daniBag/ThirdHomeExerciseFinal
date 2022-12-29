@@ -139,7 +139,7 @@ public class RealEstate {
         Scanner scanner = new Scanner(System.in);
         boolean published = false;
         Property property = new Property();
-        if (this.checkIfPassedPostingLimit(user)){
+        if (!this.checkIfPassedPostingLimit(user)){
             this.printCitiesList();
             System.out.println("Enter the exact name of the city: ");
             String cityName = scanner.nextLine();
@@ -155,71 +155,52 @@ public class RealEstate {
                             "3- A Cottage");
                     boolean inputValid;
                     Integer propertyType;
-                    do {
-                        propertyType = scanner.nextInt();
-                        inputValid = property.validatePropertyType(propertyType);
-                        if (!inputValid){
-                            System.out.println("Invalid selection, please enter your property type:\n"
-                                    +"1- An apartment in a building\n"
-                                    +"2- A penthouse in a building\n"
-                                    +"3- A Cottage");
-                        }
-                    } while (!inputValid);
-                    int floor = 0;
-                    if (propertyType.equals(property.REGULAR_APARTMENT) || propertyType.equals(property.PENTHOUSE_APARTMENT)){
-                        System.out.println("Please enter the floor of the property: ");
-                        do {
+                    propertyType = scanner.nextInt();
+                    if (property.getPropertyType()!=null){
+                        Integer floor=null;
+                        if (propertyType.equals(property.REGULAR_APARTMENT) || propertyType.equals(property.PENTHOUSE_APARTMENT)){
+                            System.out.println("Please enter the floor of the property: ");
                             floor = scanner.nextInt();
-                            inputValid = property.validateFloor(floor);
-                            if (!inputValid){
+                            /*if (!inputValid){
                                 System.out.println("Invalid floor number, please try again: ");
                             }
-                        }while (!inputValid);
-                    }
-                    float roomsAmount;
-                    System.out.println("Please enter your property's rooms amount: ");
-                    do {
+                        }while (!inputValid);*/
+                        }
+                        Float roomsAmount;
+                        System.out.println("Please enter your property's rooms amount: ");
                         roomsAmount = scanner.nextFloat();
-                        inputValid = property.validateRoomsAmount(roomsAmount);
-                        if (!inputValid){
+ /*                     if (!inputValid){
                             System.out.println("Invalid rooms amount, please try again: ");
                         }
-                    }while (!inputValid);
-                    int houseNumber;
-                    System.out.println("Please enter your property's house number: ");
-                    do {
+                    }while (!inputValid);*/
+                        int houseNumber;
+                        System.out.println("Please enter your property's house number: ");
                         houseNumber = scanner.nextInt();
-                        inputValid = property.validateHouseNumber(houseNumber);
-                        if (!inputValid){
+                        /*if (!inputValid){
                             System.out.println("Invalid house number, please try again: ");
                         }
-                    }while (!inputValid);
-                    String isForRent;
-                    System.out.println("Is your property for rent? (y/n)\n" +
-                            "For rent -> insert y\n" +
-                            "For sale -> insert n");
-                    do {
-                        isForRent = scanner.nextLine();
-                        inputValid = this.validateIfForRent(isForRent);
-                        if (!inputValid){
+                    }while (!inputValid);*/
+                        String forRent;
+                        System.out.println("Is your property for rent? (y/n)\n" +
+                                "For rent -> insert y\n" +
+                                "For sale -> insert n");
+                        forRent = scanner.nextLine();
+                        /*if (!inputValid){
                             System.out.println("Invalid selection, please insert y/n.");
                         }
-                    }while (!inputValid);
-                    boolean forRent = false;
-                    switch (isForRent){
-                        case "y" -> forRent =true;
-                        case "n" -> forRent =false;
-                    }
-                    double price;
-                    System.out.println("Enter your property's price please: ");
-                    do {
+                    }while (!inputValid);*/
+
+                        double price;
+                        System.out.println("Enter your property's price please: ");
                         price = scanner.nextDouble();
-                        inputValid = property.validatePrice(price);
-                        if (!inputValid){
+                        /*if (!inputValid){
                             System.out.println("Invalid, please enter again: ");
                         }
-                    }while (!inputValid);
-                    property = new Property(currentCity, user, streetName, roomsAmount, price, propertyType, forRent, houseNumber, floor);
+                    }while (!inputValid);*/
+                        property =new Property(currentCity, user, streetName, roomsAmount, price, propertyType, forRent, houseNumber, floor);
+                    }else {
+                        System.out.println(propertyType + " is an invalid input.");
+                    }
                 } else{
                     System.out.println(streetName + " is not a street in this city.");
                 }
@@ -230,5 +211,27 @@ public class RealEstate {
             System.out.println("ERROR! you have passed your properties publishing limit.");
         }
         return published;
+    }
+
+    public void printAllProperties(){
+        for (int i=0; i<this.properties.length; i++){
+            System.out.println(this.properties[i]);
+        }
+    }
+    public void printProperties (User user){
+        for (int i=0; i<this.properties.length; i++){
+            if (this.properties[i].getUser().equals(user)){
+                System.out.println(properties[i]);
+            }
+        }
+    }
+    public Property[] search (){
+        int forRent;
+        int propertyType;
+        float rooms;
+        double minPrice;
+        double maxPrice;
+        int counter;
+        for ()
     }
 }
