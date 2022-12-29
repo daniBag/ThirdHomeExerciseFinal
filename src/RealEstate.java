@@ -16,13 +16,13 @@ public class RealEstate {
         }
         return exists;
     }
-    private void addUserToUsersArray (User user){
-        User[] usersTemp = new User[users.length + 1];
-        for (int i = 0; i < users.length; i++){
-            usersTemp[i] = users[i];
+    private void addObjectToArray(Object object, Object[] objects){
+        Object[] objectsTemp = new Object[objects.length + 1];
+        for (int i = 0; i < objects.length; i++){
+            objectsTemp[i] = users[i];
         }
-        usersTemp[users.length] = user;
-        users = usersTemp;
+        objectsTemp[objects.length] = object;
+        objects = objectsTemp;
     }
     public void createUser(){
         Scanner scanner = new Scanner(System.in);
@@ -67,7 +67,7 @@ public class RealEstate {
             phoneNumber = scanner.nextLine();
             user.setPhoneNumber(phoneNumber);
         }
-        addUserToUsersArray(user);
+        this.addObjectToArray(user, this.users);
     }
     public User userLogin() {
         Scanner scanner = new Scanner(System.in);
@@ -156,48 +156,55 @@ public class RealEstate {
                     boolean inputValid;
                     Integer propertyType;
                     propertyType = scanner.nextInt();
-                    if (property.getPropertyType()!=null){
-                        Integer floor=null;
+                    inputValid = property.validatePropertyType(propertyType);
+                    if (inputValid){
+                        Integer floor = null;
                         if (propertyType.equals(property.REGULAR_APARTMENT) || propertyType.equals(property.PENTHOUSE_APARTMENT)){
                             System.out.println("Please enter the floor of the property: ");
                             floor = scanner.nextInt();
-                            /*if (!inputValid){
-                                System.out.println("Invalid floor number, please try again: ");
-                            }
-                        }while (!inputValid);*/
                         }
                         Float roomsAmount;
                         System.out.println("Please enter your property's rooms amount: ");
                         roomsAmount = scanner.nextFloat();
- /*                     if (!inputValid){
-                            System.out.println("Invalid rooms amount, please try again: ");
-                        }
-                    }while (!inputValid);*/
                         int houseNumber;
                         System.out.println("Please enter your property's house number: ");
                         houseNumber = scanner.nextInt();
-                        /*if (!inputValid){
-                            System.out.println("Invalid house number, please try again: ");
-                        }
-                    }while (!inputValid);*/
-                        String forRent;
-                        System.out.println("Is your property for rent? (y/n)\n" +
-                                "For rent -> insert y\n" +
-                                "For sale -> insert n");
-                        forRent = scanner.nextLine();
-                        /*if (!inputValid){
-                            System.out.println("Invalid selection, please insert y/n.");
-                        }
-                    }while (!inputValid);*/
-
+                        Integer rentOrSale;
+                        System.out.println("Is your property for rent? (1/2)\n" +
+                                "For rent -> insert 1\n" +
+                                "For sale -> insert 2");
+                        rentOrSale = scanner.nextInt();
                         double price;
                         System.out.println("Enter your property's price please: ");
                         price = scanner.nextDouble();
-                        /*if (!inputValid){
-                            System.out.println("Invalid, please enter again: ");
+                        property =new Property(currentCity, user, streetName, roomsAmount, price, propertyType, rentOrSale, houseNumber, floor);
+                        if (propertyType!=property.COTTAGE){
+                            while (property.getFloor()==null){
+                                System.out.println("Invalid floor number, please try again: ");
+                                floor = scanner.nextInt();
+                                property.setFloor(floor);
+                            }
                         }
-                    }while (!inputValid);*/
-                        property =new Property(currentCity, user, streetName, roomsAmount, price, propertyType, forRent, houseNumber, floor);
+                        while (property.getRoomsAmount()==null){
+                            System.out.println("Invalid rooms amount, please try again: ");
+                            roomsAmount = scanner.nextFloat();
+                            property.setRoomsAmount(roomsAmount);
+                        }
+                        while (property.getHouseNumber()==null){
+                            System.out.println("Invalid house number, please try again:");
+                            houseNumber = scanner.nextInt();
+                            property.setHouseNumber(houseNumber);
+                        }
+                        while (property.getRentOrSale()==null){
+                            System.out.println("Invalid status: \n" +
+                                    "For rent -> insert 1\n" +
+                                    "For sale -> insert 2");
+                            rentOrSale = scanner.nextInt();
+                        }
+                        while (property.getPrice()==null){
+                            System.out.println("Invalid price. Please try again");
+                        }
+                        this.addObjectToArray(property,this.properties);
                     }else {
                         System.out.println(propertyType + " is an invalid input.");
                     }
