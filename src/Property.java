@@ -7,7 +7,7 @@ public class Property {
     private Float roomsAmount;
     private Double price;
     private Integer propertyType;
-    private Integer forRent;
+    private Integer rentOrSale;
     private Integer houseNumber;
     private Integer floor;
     public final int REGULAR_APARTMENT = 1;
@@ -37,7 +37,7 @@ public class Property {
             this.propertyType = propertyType;
         }
         if (this.validateIfForRent(forRent)){
-            this.forRent = forRent;
+            this.rentOrSale = forRent;
            }
         if (this.validateHouseNumber(houseNumber)){
             this.houseNumber = houseNumber;
@@ -83,10 +83,10 @@ public class Property {
         }
         return valid;
     }
-    private boolean validateIfForRent (Integer isForRent){
+    private boolean validateRentOrSale (Integer rentOrSale){
         boolean valid = false;
-        if (isForRent != null){
-            if (isForRent.equals(FOR_RENT) || isForRent.equals(FOR_SALE)){
+        if (rentOrSale != null){
+            if (rentOrSale.equals(FOR_RENT) || rentOrSale.equals(FOR_SALE)){
                 valid = true;
             }
         }
@@ -126,11 +126,11 @@ public class Property {
         }
     }
 
-    public double getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    private void setPrice(double price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
@@ -142,12 +142,12 @@ public class Property {
         this.propertyType = propertyType;
     }
 
-    public Integer getSaleOrRent() {
-        return forRent;
+    public Integer getRentOrSale() {
+        return rentOrSale;
     }
 
-    public void setForRent(Integer forRent) {
-        this.forRent = forRent;
+    public void setRentOrSale(Integer forRent) {
+        this.rentOrSale = forRent;
     }
 
     public Integer getHouseNumber() {
@@ -176,7 +176,7 @@ public class Property {
             case PENTHOUSE_APARTMENT -> output += "Penthouse apartment - ";
             case COTTAGE -> output += "Cottage - ";
         }
-        output += (this.forRent ? "for rent: " : "for sale: ") + this.roomsAmount + " rooms";
+        output += (this.rentOrSale ? "for rent: " : "for sale: ") + this.roomsAmount + " rooms";
         if (this.propertyType!=COTTAGE){
             output += ", floor " + this.floor;
         }

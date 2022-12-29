@@ -16,13 +16,13 @@ public class RealEstate {
         }
         return exists;
     }
-    private void addUserToUsersArray (User user){
-        User[] usersTemp = new User[users.length + 1];
-        for (int i = 0; i < users.length; i++){
-            usersTemp[i] = users[i];
+    private void addObjectToArray(Object object, Object[] objects){
+        Object[] objectsTemp = new Object[objects.length + 1];
+        for (int i = 0; i < objects.length; i++){
+            objectsTemp[i] = users[i];
         }
-        usersTemp[users.length] = user;
-        users = usersTemp;
+        objectsTemp[objects.length] = object;
+        objects = objectsTemp;
     }
     public void createUser(){
         Scanner scanner = new Scanner(System.in);
@@ -67,7 +67,7 @@ public class RealEstate {
             phoneNumber = scanner.nextLine();
             user.setPhoneNumber(phoneNumber);
         }
-        addUserToUsersArray(user);
+        this.addObjectToArray(user, this.users);
     }
     public User userLogin() {
         Scanner scanner = new Scanner(System.in);
@@ -169,24 +169,15 @@ public class RealEstate {
                         int houseNumber;
                         System.out.println("Please enter your property's house number: ");
                         houseNumber = scanner.nextInt();
-                        Integer forRent;
+                        Integer rentOrSale;
                         System.out.println("Is your property for rent? (1/2)\n" +
                                 "For rent -> insert 1\n" +
                                 "For sale -> insert 2");
-                        forRent = scanner.nextInt();
-                        /*if (!inputValid){
-                            System.out.println("Invalid selection, please insert y/n.");
-                        }
-                    }while (!inputValid);*/
-
+                        rentOrSale = scanner.nextInt();
                         double price;
                         System.out.println("Enter your property's price please: ");
                         price = scanner.nextDouble();
-                        /*if (!inputValid){
-                            System.out.println("Invalid, please enter again: ");
-                        }
-                    }while (!inputValid);*/
-                        property =new Property(currentCity, user, streetName, roomsAmount, price, propertyType, forRent, houseNumber, floor);
+                        property =new Property(currentCity, user, streetName, roomsAmount, price, propertyType, rentOrSale, houseNumber, floor);
                         if (propertyType!=property.COTTAGE){
                             while (property.getFloor()==null){
                                 System.out.println("Invalid floor number, please try again: ");
@@ -204,7 +195,16 @@ public class RealEstate {
                             houseNumber = scanner.nextInt();
                             property.setHouseNumber(houseNumber);
                         }
-                    inputValid=property.validatePropertyType(propertyType);
+                        while (property.getRentOrSale()==null){
+                            System.out.println("Invalid status: \n" +
+                                    "For rent -> insert 1\n" +
+                                    "For sale -> insert 2");
+                            rentOrSale = scanner.nextInt();
+                        }
+                        while (property.getPrice()==null){
+                            System.out.println("Invalid price. Please try again");
+                        }
+                        this.addObjectToArray(property,this.properties);
                     }else {
                         System.out.println(propertyType + " is an invalid input.");
                     }
