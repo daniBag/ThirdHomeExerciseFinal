@@ -1,39 +1,53 @@
+import java.security.PublicKey;
+
 public class Property {
     private City city;
     private User user;
     private String street;
-    private float roomsAmount;
-    private double price;
+    private Float roomsAmount;
+    private Double price;
     private Integer propertyType;
-    private boolean forRent;
+    private Boolean forRent;
     private Integer houseNumber;
-    private int floor;
-    public final Integer REGULAR_APARTMENT = 1;
-    public final Integer PENTHOUSE_APARTMENT = 2;
-    public final Integer COTTAGE = 3;
-    public final int TOP_FLOOR_POSSIBLE = 50;
-    public final int LOWEST_FLOOR = -1;
-    public final float MAX_ROOMS_NUMBER = 12;
+    private Integer floor;
+    public final int REGULAR_APARTMENT = 1;
+    public final int PENTHOUSE_APARTMENT = 2;
+    public final int COTTAGE = 3;
+    public final int BASEMENT_FLOOR = -1;
     public final float MIN_ROOMS_NUMBER = 1;
     public final int MIN_HOUSE_NUMBER = 1;
-    public final int MAX_HOUSE_NUMBER = 500;
-    public final int FOR_RENT = 1;
-    public final int FOR_SALE = 2;
+    public final String FOR_RENT = "y";
+    public final String FOR_SALE = "n";
 // input validations
     public Property(){}
     public Property(City city, User user, String street,
                     float roomsAmount, double price,
-                    Integer propertyType, boolean forRent,
+                    Integer propertyType, String forRent,
                     int houseNumber, int floor) {
         this.city = city;
         this.user = user;
         this.street = street;
-        this.roomsAmount = roomsAmount;
-        this.price = price;
-        this.propertyType = propertyType;
-        this.forRent = forRent;
-        this.houseNumber = houseNumber;
-        this.floor = floor;
+        if (this.validateRoomsAmount(roomsAmount)){
+            this.roomsAmount = roomsAmount;
+        }
+        if (this.validatePrice(price)){
+            this.price = price;
+        }
+        if (this.validatePropertyType(propertyType)){
+            this.propertyType = propertyType;
+        }
+        if (this.validateIfForRent(forRent)){
+             switch (forRent){
+                 case FOR_RENT -> this.forRent =true;
+                 case FOR_SALE -> this.forRent =false;
+             }
+        }
+        if (this.validateHouseNumber(houseNumber)){
+            this.houseNumber = houseNumber;
+        }
+        if (this.validateFloor(floor)){
+            this.floor = floor;
+        }
     }
     public boolean validatePrice (double price){
         boolean valid = false;
@@ -44,21 +58,21 @@ public class Property {
     }
     public boolean validateFloor (int floor){
         boolean valid = false;
-        if (floor <= TOP_FLOOR_POSSIBLE && floor >= LOWEST_FLOOR){
+        if (floor >= BASEMENT_FLOOR){
             valid = true;
         }
         return valid;
     }
     public boolean validateHouseNumber (Integer houseNumber){
         boolean valid = false;
-        if (houseNumber >= MIN_HOUSE_NUMBER && houseNumber <= MAX_HOUSE_NUMBER){
+        if (houseNumber >= MIN_HOUSE_NUMBER){
             valid = true;
         }
         return valid;
     }
     public boolean validateRoomsAmount(float roomsAmount){
         boolean valid = false;
-        if (roomsAmount <= MAX_ROOMS_NUMBER && roomsAmount >= MIN_ROOMS_NUMBER){
+        if (roomsAmount >= MIN_ROOMS_NUMBER){
             if (roomsAmount % 0.5 == 0){
                 valid = true;
             }
@@ -69,6 +83,15 @@ public class Property {
         boolean valid = false;
         if (propertyType == REGULAR_APARTMENT || propertyType == PENTHOUSE_APARTMENT || propertyType == COTTAGE){
             valid = true;
+        }
+        return valid;
+    }
+    private boolean validateIfForRent (String isForRent){
+        boolean valid = false;
+        if (isForRent != null){
+            if (isForRent.equals(FOR_RENT) || isForRent.equals(FOR_SALE)){
+                valid = true;
+            }
         }
         return valid;
     }
@@ -143,6 +166,18 @@ public class Property {
     private void setFloor(int floor) {
         this.floor = floor;
     }
-
-
+    public String toString (){
+        String output = this.city.getName() + " " + this.street + " " + this.houseNumber + ".\n";
+        switch (propertyType){
+            case REGULAR_APARTMENT -> output += "Regular apartment - ";
+            case PENTHOUSE_APARTMENT -> output += "Penthouse apartment - ";
+            case COTTAGE -> output += "Cottage - ";
+        }
+        output += (this.forRent ? "for rent: " : "for sale: ") + this.roomsAmount + " rooms";
+        if (this.propertyType!=COTTAGE){
+            output += ", floor " + this.floor;
+        }
+        output += "\nPrice: " + this.price + "$.\n" + "Contact info: " + this.user.toString();
+        return output;
+    }
 }

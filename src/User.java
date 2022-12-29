@@ -77,4 +77,8 @@ public class User {
     public boolean isRelator() {
         return relator;
     }
+    public String toString(){
+        String output = this.userName + " " + this.phoneNumber + " (" + (this.relator ? "real estate broker" : "individual") + ").";
+        return output;
+    }
 }
