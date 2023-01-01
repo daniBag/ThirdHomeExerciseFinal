@@ -1,42 +1,33 @@
 public class City {
     private String name;
-    private String county; // לשנות למספרים+ קבועים
+    private String district;
     private String[] streets;
 
-    public City(String name, String county, String[] streets) {
+    //O(1)
+    public City(String name, int district, String[] streets) {
         this.name = name;
-        this.county = county;
+        switch (district){
+            case Constants.NEGEV_DISTRICT -> this.district = "Negev District";
+            case Constants.SOUTHERN_DISTRICT -> this.district = "Southern District";
+            case Constants.CENTRAL_DISTRICT -> this.district = "Central District";
+            case Constants.SHARON_DISTRICT -> this.district = "Sharon District";
+            case Constants.NORTHERN_DISTRICT -> this.district = "Northern District";
+            default -> this.district = null;
+        }
+
         this.streets = streets;
     }
-
-    private void setName(String name) {
-        this.name = name;
-    }
-
-    private void setCounty(String county) {
-        this.county = county;
-    }
-
-    private void setStreets(String[] streets) {
-        this.streets = streets;
-    }
-
+    //O(1)
     public String getName() {
         return name;
     }
-
-    public String getCounty() {
-        return county;
-    }
-
-    public String[] getStreets() {
-        return streets;
-    }
+    //O(n)
     public void printStreetList (){
         for (int i = 0; i < this.streets.length; i++){
             System.out.println(this.streets[i]);
         }
     }
+    //O(n)
     public boolean isValidStreet(String streetName){
         boolean valid = false;
         for (int i = 0; i < this.streets.length; i++){

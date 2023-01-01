@@ -5,8 +5,9 @@ public class User {
     private String password;
     private String phoneNumber;
     private boolean relator;
-
+    //O(1)
     public User(){}
+    //O(1)
     public User(String userName, String password, String phoneNumber, boolean relator) {
         this.userName = userName;
         if (this.passwordValidation(password)){
@@ -17,68 +18,58 @@ public class User {
         }
         this.relator = relator;
     }
-    private boolean checkIfContains(String check, String contains) {
-        boolean isContaining = false;
-        for (int i = 0; i < check.length(); i++) {
-            if (contains.contains(check.charAt(i) + "")) {
-                isContaining = true;
-                break;
-            }
-        }
-        return isContaining;
-    }
+    //O(1)
     private boolean passwordValidation(String password){
         boolean strong = false;
-        String digits = "0123456789";
-        String spacialSymbol = "$%_";
         if (password.length() >= 5){
-            if (checkIfContains(password, spacialSymbol)){
-                if (checkIfContains(password, digits)) {
-                    strong = true;
-                }
+            if (password.matches(Constants.REGEX_DIGITS)){
+                strong = password.matches(Constants.REGEX_SYMBOL);
             }
         }
         return strong;
     }
+    //O(1)
     private boolean phoneNumberValidating (String phoneNumber){
         boolean valid = false;
-        if (Pattern.matches("^(\\d{10})$", phoneNumber)){
-            valid = Pattern.matches("^05.*", phoneNumber);
+        if (phoneNumber.matches(Constants.PHONE_NUMBER_REGEX)){
+            valid = phoneNumber.matches(Constants.PHONE_NUMBER_PREFIX_REGEX);
         }
         return valid;
     }
-    private void setUserName(String userName){
-        this.userName = userName;
-    }
+    //O(1)
     public void setPassword(String password){
         if (this.passwordValidation(password)){
             this.password = password;
         }
     }
+    //O(1)
     protected void setPhoneNumber(String phoneNumber){
         if (this.phoneNumberValidating(phoneNumber)){
             this.phoneNumber = phoneNumber;
         }
     }
+    //O(1)
     private void setRelator(boolean relator){
         this.relator = relator;
     }
+    //O(1)
     public String getUserName(){
         return userName;
     }
+    //O(1)
     public String getPassword() {
         return password;
     }
-
+    //O(1)
     public String getPhoneNumber() {
         return phoneNumber;
     }
-
+    //O(1)
     public boolean isRelator() {
         return relator;
     }
+    //O(1)
     public String toString(){
-        String output = this.userName + " " + this.phoneNumber + " (" + (this.relator ? "real estate broker" : "individual") + ").";
-        return output;
+        return this.userName + " " + this.phoneNumber + " (" + (this.relator ? "real estate broker" : "individual") + ").";
     }
 }

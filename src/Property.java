@@ -2,24 +2,17 @@ public class Property {
     private City city;
     private User user;
     private String street;
-    private Float roomsAmount;
+    private Integer roomsAmount;
     private Double price;
     private Integer propertyType;
     private Integer rentOrSale;
     private Integer houseNumber;
     private Integer floor;
-    public final int REGULAR_APARTMENT = 1;
-    public final int PENTHOUSE_APARTMENT = 2;
-    public final int COTTAGE = 3;
-    public final int BASEMENT_FLOOR = -1;
-    public final float MIN_ROOMS_NUMBER = 1;
-    public final int MIN_HOUSE_NUMBER = 1;
-    public final int FOR_RENT = 1;
-    public final int FOR_SALE = 2;
-// input validations
+    //O(1)
     public Property(){}
+    //O(1)
     public Property(City city, User user, String street,
-                    float roomsAmount, double price,
+                    Integer roomsAmount, double price,
                     Integer propertyType, Integer forRent,
                     int houseNumber, int floor) {
         this.city = city;
@@ -44,6 +37,7 @@ public class Property {
             this.floor = floor;
         }
     }
+    //O(1)
     public boolean validatePrice (double price){
         boolean valid = false;
         if (price >=0){
@@ -51,137 +45,122 @@ public class Property {
         }
         return valid;
     }
+    //O(1)
     public boolean validateFloor (int floor){
         boolean valid = false;
-        if (floor >= BASEMENT_FLOOR){
+        if (floor >= Constants.BASEMENT_FLOOR){
             valid = true;
         }
         return valid;
     }
+    //O(1)
     public boolean validateHouseNumber (Integer houseNumber){
         boolean valid = false;
-        if (houseNumber >= MIN_HOUSE_NUMBER){
+        if (houseNumber >= Constants.MIN_HOUSE_NUMBER){
             valid = true;
         }
         return valid;
     }
-    public boolean validateRoomsAmount(float roomsAmount){
+    //O(1)
+    public boolean validateRoomsAmount(int roomsAmount){
         boolean valid = false;
-        if (roomsAmount >= MIN_ROOMS_NUMBER){
-            if (roomsAmount % 0.5 == 0){
-                valid = true;
-            }
+        if (roomsAmount >= Constants.MIN_ROOMS_NUMBER){
+            valid = true;
         }
         return valid;
     }
+    //O(1)
     public boolean validatePropertyType (Integer propertyType){
         boolean valid = false;
-        if (propertyType == REGULAR_APARTMENT || propertyType == PENTHOUSE_APARTMENT || propertyType == COTTAGE){
+        if (propertyType == Constants.REGULAR_APARTMENT || propertyType == Constants.PENTHOUSE_APARTMENT || propertyType == Constants.COTTAGE){
             valid = true;
         }
         return valid;
     }
+    //O(1)
     public boolean validateRentOrSale (Integer rentOrSale){
         boolean valid = false;
         if (rentOrSale != null){
-            if (rentOrSale.equals(FOR_RENT) || rentOrSale.equals(FOR_SALE)){
+            if (rentOrSale.equals(Constants.FOR_RENT) || rentOrSale.equals(Constants.FOR_SALE)){
                 valid = true;
             }
         }
         return valid;
     }
-    public City getCity() {
-        return city;
-    }
-
-    private void setCity(City city) {
-        this.city = city;
-    }
-
+    //O(1)
     public User getUser() {
         return user;
     }
-
-    private void setUser(User user) {
-        this.user = user;
-    }
-
-    public String getStreet() {
-        return street;
-    }
-
-    private void setStreet(String street) {
-        this.street = street;
-    }
-
-    public Float getRoomsAmount() {
+    //O(1)
+    public Integer getRoomsAmount() {
         return roomsAmount;
     }
-
-    public void setRoomsAmount(Float roomsAmount) {
+    //O(1)
+    public void setRoomsAmount(Integer roomsAmount) {
         if (this.validateRoomsAmount(roomsAmount)){
             this.roomsAmount = roomsAmount;
         }
     }
-
+    //O(1)
     public Double getPrice() {
         return price;
     }
-
+    //O(1)
     public void setPrice(Double price) {
         this.price = price;
     }
-
+    //O(1)
     public Integer getPropertyType() {
         return propertyType;
     }
-
+    //O(1)
     public void setPropertyType(Integer propertyType) {
         if (this.validatePropertyType(propertyType)){
             this.propertyType = propertyType;
         }
     }
-
+    //O(1)
     public Integer getRentOrSale() {
         return rentOrSale;
     }
-
+    //O(1)
     public void setRentOrSale(Integer forRent) {
         this.rentOrSale = forRent;
     }
-
+    //O(1)
     public Integer getHouseNumber() {
         return houseNumber;
     }
-
+    //O(1)
     public void setHouseNumber(Integer houseNumber) {
         if (this.validateHouseNumber(houseNumber)){
             this.houseNumber = houseNumber;
         }
     }
-
+    //O(1)
     public Integer getFloor() {
         return floor;
     }
-
+    //O(1)
     public void setFloor(Integer floor) {
         if (this.validateFloor(floor)){
             this.floor = floor;
         }
     }
+    //O(1)
     public String toString (){
         String output = this.city.getName() + " " + this.street + " " + this.houseNumber + ".\n";
         switch (propertyType){
-            case REGULAR_APARTMENT -> output += "Regular apartment - ";
-            case PENTHOUSE_APARTMENT -> output += "Penthouse apartment - ";
-            case COTTAGE -> output += "Cottage - ";
+            case Constants.REGULAR_APARTMENT -> output += "Regular apartment - ";
+            case Constants.PENTHOUSE_APARTMENT -> output += "Penthouse apartment - ";
+            case Constants.COTTAGE -> output += "Cottage - ";
         }
         switch (this.rentOrSale){
-            case FOR_RENT -> output += "for rent: ";
-            case FOR_SALE -> output += "for sale: ";
+            case Constants.FOR_RENT -> output += "for rent: ";
+            case Constants.FOR_SALE -> output += "for sale: ";
         }
         output += this.roomsAmount + " rooms";
-        if (this.propertyType!=COTTAGE){
+        if (this.propertyType != Constants.COTTAGE){
             output += ", floor " + this.floor;
         }
         output += "\nPrice: " + this.price + "$.\n" + "Contact info: " + this.user.toString();
