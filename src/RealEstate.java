@@ -289,6 +289,7 @@ public class RealEstate {
             System.out.print((i+1) + ". ");
             System.out.println(properties[i]);
             System.out.println("*********");
+            printedCounter++;
         }
         if (printedCounter == 0){
             System.out.println("There are no properties to show.");
