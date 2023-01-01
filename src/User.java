@@ -43,7 +43,7 @@ public class User {
         }
     }
     //O(1)
-    protected void setPhoneNumber(String phoneNumber){
+    public void setPhoneNumber(String phoneNumber){
         if (this.phoneNumberValidating(phoneNumber)){
             this.phoneNumber = phoneNumber;
         }
