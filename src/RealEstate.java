@@ -486,11 +486,10 @@ public class RealEstate {
         Property[] temp = new Property[this.properties.length - 1];
         int propertiesCounter = 0;
         for (int i = 0; i < this.properties.length; i++){
-            if (this.properties[i].equals(byUser[toRemove])){
-                continue;
+            if (!this.properties[i].equals(byUser[toRemove - 1])){
+                temp[propertiesCounter] = this.properties[i];
+                propertiesCounter++;
             }
-            temp[propertiesCounter] = this.properties[i];
-            propertiesCounter++;
         }
         this.properties = temp;
         System.out.println("The requested property has been successfully removed.");
